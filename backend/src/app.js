@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Routes
-const allowedOrigins = "https://mysterychat.onrender.com/"
+const allowedOrigins = "https://mysterychat-five.vercel.app"
   .split(",")
   .map((origin) => origin.trim())
   .filter(Boolean);
