@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Routes
-const allowedOrigins = (process.env.CLIENT_URL || "http://localhost:5173,http://localhost:5174")
+const allowedOrigins = "https://mysterychat.onrender.com/"
   .split(",")
   .map((origin) => origin.trim())
   .filter(Boolean);
