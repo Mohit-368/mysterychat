@@ -1,0 +1,12 @@
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { api } from "../lib";
+import { useAuth } from "../context";
+
+export default function Register() {
+  const navigate = useNavigate(); const { setUser } = useAuth();
+  const [form, setForm] = useState({ username: "", email: "", password: "" }); const [error, setError] = useState(""); const [busy, setBusy] = useState(false);
+  async function submit(e) { e.preventDefault(); setError(""); setBusy(true); try { const data = await api("/auth/register", { method: "POST", body: JSON.stringify(form) }); setUser(data.user); navigate("/chat", { replace: true }); } catch (err) { setError(err.message); } finally { setBusy(false); } }
+  return <main className="min-h-screen bg-[#050505] text-white flex items-center justify-center px-6 pt-24 pb-16"><div className="w-full max-w-md"><div className="text-center mb-8"><Link to="/" className="text-2xl font-semibold">Mystery<span className="text-blue-500 font-light">Chat</span></Link><p className="text-gray-500 text-sm mt-2">Create your anonymous identity.</p></div><form onSubmit={submit} className="bg-[#0a0a0a] border border-white/10 rounded-3xl p-8 space-y-5">{error && <div className="rounded-xl border border-red-500/20 bg-red-500/10 text-red-300 px-4 py-3 text-sm">{error}</div>}<Field label="Username" value={form.username} onChange={(v) => setForm({ ...form, username: v })} placeholder="shadow_user" /><Field label="Email" type="email" value={form.email} onChange={(v) => setForm({ ...form, email: v })} placeholder="you@example.com" /><Field label="Password" type="password" value={form.password} onChange={(v) => setForm({ ...form, password: v })} placeholder="8+ characters" /><button disabled={busy} className="w-full bg-white text-black rounded-xl py-3.5 font-medium disabled:opacity-50">{busy ? "Creating..." : "Create Account"}</button></form><p className="text-center text-sm text-gray-500 mt-6">Already registered? <Link to="/login" className="text-blue-400">Sign in</Link></p></div></main>;
+}
+function Field({ label, type = "text", value, onChange, placeholder }) { return <label className="block"><span className="text-xs text-gray-400 ml-1">{label}</span><input required type={type} value={value} placeholder={placeholder} onChange={(e) => onChange(e.target.value)} className="mt-2 w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 outline-none focus:border-blue-500/60" /></label>; }
