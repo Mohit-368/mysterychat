@@ -4,7 +4,7 @@ import roomSocket from "./room.socket.js";
 import messageSocket from "./message.socket.js";
 
 export function initializeSocket(server) {
-  const allowedOrigins = (process.env.CLIENT_URL || "http://localhost:5173,http://localhost:5174")
+  const allowedOrigins = "https://mysterychat-five.vercel.app"
     .split(",")
     .map((origin) => origin.trim())
     .filter(Boolean);
